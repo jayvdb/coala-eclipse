@@ -10,11 +10,13 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IEditorInput;
@@ -42,6 +44,8 @@ public class SampleHandler extends AbstractHandler {
 	 * The constructor.
 	 * @throws IOException 
 	 */
+	
+	String output_json = null;
 	public SampleHandler() {
 		
 	}
@@ -56,7 +60,7 @@ public class SampleHandler extends AbstractHandler {
 			cleanup();
 			run_coala();
 			process_json();
-		} catch (CoreException | IOException e2) {
+		} catch (CoreException | IOException | InterruptedException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
@@ -66,8 +70,7 @@ public class SampleHandler extends AbstractHandler {
 	
 	public void process_json() throws IOException{
 		
-		// currently only the hardcoded path to the file where output.json is saved.
-		String content = new Scanner(new File("/home/nishant/workspace/com.coala.plugin/output/out.json")).useDelimiter("\\Z").next();
+		String content = new Scanner(new File(get_json_dir())).useDelimiter("\\Z").next();
 		JSONObject obj = new JSONObject(content);
 		JSONArray arr = obj.getJSONObject("results").getJSONArray("default");
 		for (int i = 0; i < arr.length(); i++)
@@ -76,7 +79,7 @@ public class SampleHandler extends AbstractHandler {
 			String message = arr.getJSONObject(i).getString("message");
 			String origin = arr.getJSONObject(i).getString("origin");
 			int severity = arr.getJSONObject(i).getInt("severity");
-			    System.out.println(message);
+			//System.out.println(message);
 			JSONArray arr2 = arr.getJSONObject(i).getJSONArray("affected_code"); 
 		    for (int j = 0; j < arr2.length(); j++)
 			{
@@ -120,7 +123,9 @@ public class SampleHandler extends AbstractHandler {
 		IFile file = (IFile) workbenchPart.getSite().getPage().getActiveEditor().getEditorInput().getAdapter(IFile.class);
 		if (file == null) throw new FileNotFoundException();
 		String path = file.getRawLocation().toOSString();
-		System.out.println("path: " + path);
+		String p = file.getFullPath().toOSString();
+		String Dir = System.getProperty("user.home");
+
 		return path;
 	}
 	
@@ -143,13 +148,20 @@ public class SampleHandler extends AbstractHandler {
 		}
 	}
 	
-	public void run_coala() throws IOException{
-		// currently hardcoded file path and the bear to run
+	public void run_coala() throws IOException, InterruptedException{
+		String Dir = System.getProperty("user.home");
 		String path = get_current_file_path();
-		String command = "coala-json -f "  + path + " -o " +  "/home/nishant/workspace/com.coala.plugin/output/out.json"  + " -d Bears -b CheckstyleBear ";
+		String command = "coala-json -f "  + path + " -o " +  get_json_dir()  + " -d Bears -b CheckstyleBear ";
 		System.out.println(command);
 		Process process1 = Runtime.getRuntime().exec(command);
+		process1.waitFor();
 	}
 	
+	public String get_json_dir(){
+		String Dir = System.getProperty("user.home");
+		Dir = Dir.concat("/out.json");
+		return Dir;
+		
+	}
 	
 }
