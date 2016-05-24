@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Plugin
-Bundle-SymbolicName: com.coala.plugin;singleton:=true
+Bundle-SymbolicName: com.coala.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .,
  lib/json-20151123.jar

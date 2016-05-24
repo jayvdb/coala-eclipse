@@ -1,5 +1,5 @@
 
-package com.coala.plugin.handlers;
+package com.coala.core.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -28,7 +28,7 @@ public class RemoveMarkers extends AbstractHandler {
 		}
 		for (IMarker m : problems) {
 			try {
-				if (m.getType().equals("com.coala.plugin.coolproblem"))
+				if (m.getType().equals("com.coala.core.coolproblem"))
 					m.delete();
 			} catch (CoreException e) {
 				e.printStackTrace();

@@ -1,4 +1,4 @@
-package com.coala.plugin.handlers;
+package com.coala.core.handlers;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,7 +70,7 @@ public class Plugin extends AbstractHandler {
 		IResource resource = (IResource) file;
 		try {
 
-			IMarker marker = resource.createMarker("com.coala.plugin.coolproblem");
+			IMarker marker = resource.createMarker("com.coala.core.coolproblem");
 			// marker.setAttribute("coolFactor", "ULTRA");
 			marker.setAttribute(IMarker.LINE_NUMBER, line_num);
 			if (flag == 1)
