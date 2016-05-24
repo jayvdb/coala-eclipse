@@ -5,22 +5,32 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            name="Sample Category"
+            name="Main Category"
             id="com.coala.plugin.commands.category">
       </category>
       <command
             categoryId="com.coala.plugin.commands.category"
-            id="com.coala.plugin.commands.sampleCommand"
-            name="Sample Command">
+            id="com.coala.plugin.commands.runcoalaCommand"
+            name="Run coala Command">
       </command>
-   </extension>
+      <command
+            categoryId="com.coala.plugin.commands.category"
+            id="com.coala.plugin.commands.removeMarkersCommand"
+            name="Remove Markers Command">
+      </command>
+   </extension> 
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="com.coala.plugin.commands.sampleCommand"
-            class="com.coala.plugin.handlers.SampleHandler">
+            commandId="com.coala.plugin.commands.runcoalaCommand"
+            class="com.coala.plugin.handlers.Plugin">
+      </handler>
+      <handler
+            commandId="com.coala.plugin.commands.removeMarkersCommand"
+            class="com.coala.plugin.handlers.RemoveMarkers">
       </handler>
    </extension>
+   <!--
    <extension
          point="org.eclipse.ui.bindings">
       <key
@@ -30,6 +40,7 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>
    </extension>
+   -->
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
@@ -41,12 +52,19 @@
                mnemonic="M">
             <command
             	  label = "Run on Current file"
-                  commandId="com.coala.plugin.commands.sampleCommand"
+                  commandId="com.coala.plugin.commands.runcoalaCommand"
                   mnemonic="S"
                   id="com.coala.plugin.menus.sampleCommand">
             </command>
+            <command
+            	  label = "Remove markers from current file"
+                  commandId="com.coala.plugin.commands.removeMarkersCommand"
+                  mnemonic="C"
+                  id="com.coala.plugin.menus.removeMarkersCommand">
+            </command>
          </menu>
       </menuContribution>
+      <!--
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
@@ -59,6 +77,7 @@
             </command>
          </toolbar>
       </menuContribution>
+      -->
    </extension>
    
    <extension id="coolmarker" point="org.eclipse.core.resources.markers"/>
@@ -69,5 +88,4 @@
    		<persistent value="true"/>
 	</extension>
    
-
 </plugin>
