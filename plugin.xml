@@ -5,69 +5,87 @@
    <extension
          point="org.eclipse.ui.commands">
       <category
-            name="Sample Category"
-            id="com.coala.plugin.commands.category">
+            name="Main Category"
+            id="com.coala.core.commands.category">
       </category>
       <command
-            categoryId="com.coala.plugin.commands.category"
-            id="com.coala.plugin.commands.sampleCommand"
-            name="Sample Command">
+            categoryId="com.coala.core.commands.category"
+            id="com.coala.core.commands.runcoalaCommand"
+            name="Run coala Command">
       </command>
-   </extension>
+      <command
+            categoryId="com.coala.core.commands.category"
+            id="com.coala.core.commands.removeMarkersCommand"
+            name="Remove Markers Command">
+      </command>
+   </extension> 
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            commandId="com.coala.plugin.commands.sampleCommand"
-            class="com.coala.plugin.handlers.SampleHandler">
+            commandId="com.coala.core.commands.runcoalaCommand"
+            class="com.coala.core.handlers.Plugin">
+      </handler>
+      <handler
+            commandId="com.coala.core.commands.removeMarkersCommand"
+            class="com.coala.core.handlers.RemoveMarkers">
       </handler>
    </extension>
+   <!--
    <extension
          point="org.eclipse.ui.bindings">
       <key
-            commandId="com.coala.plugin.commands.sampleCommand"
+            commandId="com.coala.core.commands.sampleCommand"
             contextId="org.eclipse.ui.contexts.window"
             sequence="M1+6"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>
    </extension>
+   -->
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
                icon="icons/coala-analyzer.gif"
-               id="com.coala.plugin.menus.sampleMenu"
+               id="com.coala.core.menus.sampleMenu"
                label="Coala"
                mnemonic="M">
             <command
             	  label = "Run on Current file"
-                  commandId="com.coala.plugin.commands.sampleCommand"
+                  commandId="com.coala.core.commands.runcoalaCommand"
                   mnemonic="S"
-                  id="com.coala.plugin.menus.sampleCommand">
+                  id="com.coala.core.menus.sampleCommand">
+            </command>
+            <command
+            	  label = "Remove markers from current file"
+                  commandId="com.coala.core.commands.removeMarkersCommand"
+                  mnemonic="C"
+                  id="com.coala.core.menus.removeMarkersCommand">
             </command>
          </menu>
       </menuContribution>
+      <!--
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="com.coala.plugin.toolbars.sampleToolbar">
+               id="com.coala.core.toolbars.sampleToolbar">
             <command
-                  commandId="com.coala.plugin.commands.sampleCommand"
+                  commandId="com.coala.core.commands.sampleCommand"
                   icon="icons/sample.gif"
                   tooltip="Say hello world"
-                  id="com.coala.plugin.toolbars.sampleCommand">
+                  id="com.coala.core.toolbars.sampleCommand">
             </command>
          </toolbar>
       </menuContribution>
+      -->
    </extension>
    
    <extension id="coolmarker" point="org.eclipse.core.resources.markers"/>
    <extension id="coolproblem" point="org.eclipse.core.resources.markers">
    		<super type="org.eclipse.core.resources.problemmarker"/>
-   		<super type="com.coala.plugin.coolmarker"/>
+   		<super type="com.coala.core.coolmarker"/>
    		<attribute name="coolFactor"/>
    		<persistent value="true"/>
 	</extension>
    
-
 </plugin>
