@@ -11,8 +11,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PlatformUI;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,14 +37,14 @@ public class Plugin extends AbstractHandler {
 		try {
 			new RemoveMarkers().execute(event);
 			String json = getcoalaJSON(file, "CheckstyleBear");
-			processJSON(json);
+			processJSON(json, file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public void processJSON(String json) throws IOException {
+	public void processJSON(String json, IFile file) throws IOException {
 		JSONObject obj = new JSONObject(json);
 		JSONArray arr = obj.getJSONObject("results").getJSONArray("default");
 		for (int i = 0; i < arr.length(); i++) {
@@ -56,17 +54,17 @@ public class Plugin extends AbstractHandler {
 			JSONArray arr2 = arr.getJSONObject(i).getJSONArray("affected_code");
 			for (int j = 0; j < arr2.length(); j++) {
 				int end_line = arr2.getJSONObject(j).getJSONObject("end").getInt("line");
-				createCoolMarker(end_line, 3 - severity, "( " + origin + " ): " + message);
+				createCoolMarker(file, end_line, 3 - severity, "( " + origin + " ): " + message);
 			}
 		}
 	}
 
-	public IMarker createCoolMarker(int line_num, int flag, String message) {
+	public IMarker createCoolMarker(IFile file, int line_num, int flag, String message) {
 		// :: param : flag = 1 for error
 		// flag = 2 for warning
-		IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		/*IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		IFileEditorInput input = (IFileEditorInput) editor.getEditorInput();
-		IFile file = input.getFile();
+		IFile file = input.getFile();*/
 		IResource resource = (IResource) file;
 		try {
 

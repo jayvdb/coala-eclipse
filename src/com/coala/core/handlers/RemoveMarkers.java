@@ -17,6 +17,11 @@ public class RemoveMarkers extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IFile file = ((IFileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getActiveEditor().getEditorInput()).getFile();
+		removeAllMarkers(file);
+		return null;
+	}
+	
+	public void removeAllMarkers(IFile file) {
 		IMarker[] problems = null;
 		IResource resource = (IResource) file;
 		int depth = IResource.DEPTH_INFINITE;
@@ -34,6 +39,5 @@ public class RemoveMarkers extends AbstractHandler {
 				e.printStackTrace();
 			}
 		}
-		return null;
 	}
 }
