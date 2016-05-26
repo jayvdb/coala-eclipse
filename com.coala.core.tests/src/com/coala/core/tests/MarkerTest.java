@@ -1,4 +1,4 @@
-package com.coala.tests;
+package com.coala.core.tests;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
