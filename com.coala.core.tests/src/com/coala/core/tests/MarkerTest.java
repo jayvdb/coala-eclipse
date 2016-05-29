@@ -48,26 +48,23 @@ public class MarkerTest extends TestCase {
 	    plugin = new Plugin();
 	    removeMarkers = new RemoveMarkers();
 	}
-
-	@Test
-	public void test() throws IOException, CoreException, ExecutionException {
-		removeMarkers.removeAllMarkers(file);
-		String json = Plugin.getcoalaJSON(file, "CheckstyleBear");
-		plugin.processJSON(json, file);
-		IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true, IResource.DEPTH_INFINITE);
-		assertEquals(markers.length, 3);
-	}
 	
 	@After
 	public void tearDown() throws CoreException {
 		project.close(null);
 		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		
 		for (IProject project : projects) {
 			project.delete(true, true, null);
 		}
-		
 		ResourcesPlugin.getWorkspace().save(true, null);
 	}
 
+	@Test
+	public void test() throws IOException, CoreException, ExecutionException {
+		removeMarkers.removeAllMarkers(file);
+		plugin.createCoolMarker(file, 0, 0, "First marker");
+		plugin.createCoolMarker(file, 0, 0, "Second marker");
+		IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true, IResource.DEPTH_INFINITE);
+		assertEquals(markers.length, 2);
+	}
 }
