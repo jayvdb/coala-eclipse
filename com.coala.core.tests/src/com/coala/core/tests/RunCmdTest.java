@@ -1,11 +1,13 @@
 package com.coala.core.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.exec.ExecuteException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -21,58 +23,59 @@ import com.coala.core.handlers.Plugin;
 import com.coala.core.handlers.RemoveMarkers;
 
 public class RunCmdTest {
-	
-	private IProject project;
-	private Plugin plugin;
-	private RemoveMarkers removeMarkers;
-	private IFile file;
 
-	@Before
-	public void setUp() throws Exception {
-		String data = "package test_proj;\n\npublic class newClass {\n\n}";
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		project  = root.getProject("com.test_proj");
-		if (!project.exists()) {
-			project.create(null);
-		}
-		if (!project.isOpen()) {
-			project.open(null);
-		}
-		file = project.getFile("test.java");
-		if (!file.exists()) {
-		    byte[] bytes = data.getBytes();
-		    InputStream source = new ByteArrayInputStream(bytes);
-		    file.create(source, IResource.NONE, null);
-		}
-	    plugin = new Plugin();
-	    removeMarkers = new RemoveMarkers();
-	}
+    private IProject      project;
+    private Plugin        plugin;
+    private RemoveMarkers removeMarkers;
+    private IFile         file;
 
-	@After
-	public void tearDown() throws Exception {
-		project.close(null);
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
-			project.delete(true, true, null);
-		}
-		ResourcesPlugin.getWorkspace().save(true, null);
-	}
+    @Before
+    public void setUp() throws Exception {
+        String data = "package test_proj;\n\npublic class newClass {\n\n}";
+        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+        project = root.getProject(TestUtils.generateRandomStr(5));
+        if (!project.exists()) {
+            project.create(null);
+        }
+        if (!project.isOpen()) {
+            project.open(null);
+        }
+        file = project.getFile("test.java");
+        if (!file.exists()) {
+            byte[] bytes = data.getBytes();
+            InputStream source = new ByteArrayInputStream(bytes);
+            file.create(source, IResource.NONE, null);
+        }
+        plugin = new Plugin();
+        removeMarkers = new RemoveMarkers();
+    }
 
-	@Test
-	public void test() throws InterruptedException, CoreException {
-		removeMarkers.removeAllMarkers(file);
-		plugin.runcoalaOnFile(file, "CheckstyleBear");
-		sleep(5);
-		IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true, IResource.DEPTH_INFINITE);
-		assertEquals(markers.length, 3);
-	}
-	
-	private void sleep(int seconds) {
-	    try {
-	        TimeUnit.SECONDS.sleep(seconds);
-	    } catch (InterruptedException e) {
-	        e.printStackTrace();
-	    }
-	}
+    @Test
+    public void test() throws InterruptedException, CoreException,
+            ExecuteException, IOException {
+        removeMarkers.removeAllMarkers(file);
+        plugin.runcoalaOnFile(file, "CheckstyleBear");
+        sleep(15);
+        IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true,
+                IResource.DEPTH_INFINITE);
+        assertEquals(markers.length, 3);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        if (project.isOpen()) {
+            project.close(null);
+        }
+        project.delete(true, true, null);
+        ResourcesPlugin.getWorkspace().save(true, null);
+    }
+
+    private void sleep(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
