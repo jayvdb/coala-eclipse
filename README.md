@@ -14,6 +14,11 @@ This package offers a plugin for the Eclipse to use the code analysis software [
 4. Select coala.
 5. Click next and accept terms.
 
+### Build developmental version
+```text
+mvn clean verify
+```
+
 ## Unistall
 1. In Eclipse go to Help-> Installation Details -> Installed Software.
 2. Select coala.
