@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.coala.feature_1.0.0.qualifier.jar" id="com.coala.feature" version="1.0.0.qualifier">
+      <category name="coala for Eclipse"/>
+   </feature>
+   <category-def name="coala for Eclipse" label="coala for Eclipse"/>
+</site>

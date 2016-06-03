@@ -8,6 +8,8 @@
 	<modules>
 		<module>com.coala.core</module>
 		<module>com.coala.core.tests</module>
+		<module>com.coala.feature</module>
+		<module>com.coala.site</module>
 	</modules>
 
 	<properties>
