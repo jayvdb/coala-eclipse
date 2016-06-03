@@ -1,4 +1,4 @@
-# ABOUT
+# coala for Eclipse
 
 This package offers a plugin for the Eclipse to use the code analysis software [coala](https://github.com/coala-analyzer/coala) inside the IDE.
 
@@ -17,6 +17,3 @@ This package offers a plugin for the Eclipse to use the code analysis software [
 2. Select coala.
 3. Click uninstall.
 
-## Alternate Installation
-1. Install [coala](https://github.com/coala-analyzer/coala).
-2. Copy the [jar](https://github.com/coala-analyzer/coala-eclipse/tree/master/jar) file to your eclipse/plugins folder.     
