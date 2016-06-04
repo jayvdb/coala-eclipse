@@ -7,7 +7,7 @@ This package offers a plugin for the Eclipse to use the code analysis software [
 ## Installation
 1. Install [coala](https://github.com/coala-analyzer/coala).
 2. In Eclipse go to Help -> Install New Software -> Add
-	1. In location enter https://github.com/coala-analyzer/coala-eclipse/raw/master/exports
+	1. In location enter https://github.com/coala-analyzer/coala-eclipse/raw/master/export
 	2. In name enter coala.
 	3. Press ok.
 3. Uncheck "group items by category". 
