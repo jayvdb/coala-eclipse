@@ -44,20 +44,20 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+            locationURI="popup:org.eclipse.ui.navigator.ProjectExplorer#PopupMenu?after=additions">
          <menu
                icon="icons/coala-analyzer.gif"
-               id="com.coala.core.menus.sampleMenu"
-               label="Coala"
-               mnemonic="M">
+               id="com.coala.core.menus.popupMenu"
+               label="coala"
+               mnemonic="o">
             <command
-            	  label = "Run on Current file"
+            	  label = "Analyze using coala"
                   commandId="com.coala.core.commands.runcoalaCommand"
-                  mnemonic="S"
+                  mnemonic="A"
                   id="com.coala.core.menus.sampleCommand">
             </command>
             <command
-            	  label = "Remove markers from current file"
+            	  label = "Clear coala violations"
                   commandId="com.coala.core.commands.removeMarkersCommand"
                   mnemonic="C"
                   id="com.coala.core.menus.removeMarkersCommand">
