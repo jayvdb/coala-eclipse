@@ -8,6 +8,9 @@ Bundle-ClassPath: .,
  lib/commons-exec-1.3.jar,
  lib/commons-logging-1.2.jar
 Bundle-Vendor: COALA
+Export-Package: com.coala.core.handlers;x-friends:="com.coala.core.tests",
+ com.coala.core.utils,
+ org.apache.commons.exec
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources;bundle-version="3.10.1",
  org.eclipse.jdt.core;bundle-version="3.11.2",
@@ -18,6 +21,3 @@ Require-Bundle: org.eclipse.ui,
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.inject;version="1.0.0"
-Export-Package: com.coala.core.handlers;x-friends:="com.coala.core.tests",
- com.coala.core.utils,
- org.apache.commons.exec

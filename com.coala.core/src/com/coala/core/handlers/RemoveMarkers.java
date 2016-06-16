@@ -22,7 +22,9 @@ public class RemoveMarkers extends AbstractHandler {
 
   /**
    * Remove all markers of the type "com.coala.core.coolproblem" from the given file.
-   * @param file IFile to remove markers from
+   * 
+   * @param file
+   *          IFile to remove markers from
    */
   public void removeAllMarkers(IFile file) {
     IMarker[] problems = null;
