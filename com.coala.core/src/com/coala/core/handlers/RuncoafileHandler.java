@@ -20,7 +20,7 @@ import java.io.IOException;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class coafileHandler extends AbstractHandler {
+public class RuncoafileHandler extends AbstractHandler {
 
   /**
    * The constructor.
@@ -28,7 +28,7 @@ public class coafileHandler extends AbstractHandler {
    * @throws IOException
    *           exception
    */
-  public coafileHandler() {
+  public RuncoafileHandler() {
   }
 
   /**

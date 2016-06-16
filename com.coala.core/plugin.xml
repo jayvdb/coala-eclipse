@@ -34,7 +34,7 @@
          point="org.eclipse.ui.handlers">
       <handler
             commandId="com.coala.core.commands.runcoalaCommand"
-            class="com.coala.core.handlers.coafileHandler">
+            class="com.coala.core.handlers.RuncoafileHandler">
       </handler>
       <handler
             commandId="com.coala.core.commands.removeMarkersCommand"
