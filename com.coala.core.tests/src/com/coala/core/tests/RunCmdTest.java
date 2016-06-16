@@ -55,7 +55,7 @@ public class RunCmdTest {
   @Test
   public void test() throws InterruptedException, CoreException, ExecuteException, IOException {
     removeMarkers.removeAllMarkers(file);
-    ExternalUtils.runcoalaOnFile(file, "CheckstyleBear");
+    ExternalUtils.runBearOnFile(file, "CheckstyleBear");
     sleep(15);
     IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true,
         IResource.DEPTH_INFINITE);

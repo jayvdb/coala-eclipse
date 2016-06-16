@@ -33,7 +33,7 @@ public class ExternalUtils {
    * @throws InterruptedException
    *           exception
    */
-  public static void runcoalaOnFile(final IFile file, String bear)
+  public static void runBearOnFile(final IFile file, String bear)
       throws ExecuteException, IOException, InterruptedException {
     String path = file.getRawLocation().toOSString();
     CommandLine cmdLine = new CommandLine("coala-json");

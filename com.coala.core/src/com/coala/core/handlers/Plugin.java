@@ -36,7 +36,7 @@ public class Plugin extends AbstractHandler {
         .getAdapter(IFile.class);
     new RemoveMarkers().execute(event);
     try {
-      ExternalUtils.runcoalaOnFile(file, "CheckstyleBear");
+      ExternalUtils.runBearOnFile(file, "CheckstyleBear");
     } catch (IOException | InterruptedException ex) {
       ex.printStackTrace();
     }

@@ -35,7 +35,7 @@ public class BearMenu extends ContributionItem {
               .getActivePart().getSite().getPage().getActiveEditor().getEditorInput()
               .getAdapter(IFile.class);
           try {
-            ExternalUtils.runcoalaOnFile(file, bear);
+            ExternalUtils.runBearOnFile(file, bear);
           } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
           }
