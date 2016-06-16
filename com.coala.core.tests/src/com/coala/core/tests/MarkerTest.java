@@ -2,8 +2,8 @@ package com.coala.core.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import com.coala.core.handlers.Plugin;
 import com.coala.core.handlers.RemoveMarkers;
+import com.coala.core.utils.ExternalUtils;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IFile;
@@ -24,7 +24,6 @@ import java.io.InputStream;
 public class MarkerTest {
 
   private IProject      project;
-  private Plugin        plugin;
   private RemoveMarkers removeMarkers;
   private IFile         file;
 
@@ -49,15 +48,14 @@ public class MarkerTest {
       InputStream source = new ByteArrayInputStream(bytes);
       file.create(source, IResource.NONE, null);
     }
-    plugin = new Plugin();
     removeMarkers = new RemoveMarkers();
   }
 
   @Test
   public void test() throws IOException, CoreException, ExecutionException {
     removeMarkers.removeAllMarkers(file);
-    plugin.createCoolMarker(file, 0, 0, "First marker");
-    plugin.createCoolMarker(file, 0, 0, "Second marker");
+    ExternalUtils.createCoolMarker(file, 0, 0, "First marker");
+    ExternalUtils.createCoolMarker(file, 0, 0, "Second marker");
     IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true,
         IResource.DEPTH_INFINITE);
     assertEquals(markers.length, 2);

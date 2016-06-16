@@ -19,4 +19,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.inject;version="1.0.0"
 Export-Package: com.coala.core.handlers;x-friends:="com.coala.core.tests",
+ com.coala.core.utils,
  org.apache.commons.exec

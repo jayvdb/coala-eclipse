@@ -2,8 +2,8 @@ package com.coala.core.tests;
 
 import static org.junit.Assert.assertEquals;
 
-import com.coala.core.handlers.Plugin;
 import com.coala.core.handlers.RemoveMarkers;
+import com.coala.core.utils.ExternalUtils;
 
 import org.apache.commons.exec.ExecuteException;
 import org.eclipse.core.resources.IFile;
@@ -25,7 +25,6 @@ import java.util.concurrent.TimeUnit;
 public class RunCmdTest {
 
   private IProject      project;
-  private Plugin        plugin;
   private RemoveMarkers removeMarkers;
   private IFile         file;
 
@@ -50,14 +49,13 @@ public class RunCmdTest {
       InputStream source = new ByteArrayInputStream(bytes);
       file.create(source, IResource.NONE, null);
     }
-    plugin = new Plugin();
     removeMarkers = new RemoveMarkers();
   }
 
   @Test
   public void test() throws InterruptedException, CoreException, ExecuteException, IOException {
     removeMarkers.removeAllMarkers(file);
-    plugin.runcoalaOnFile(file, "CheckstyleBear");
+    ExternalUtils.runcoalaOnFile(file, "CheckstyleBear");
     sleep(15);
     IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true,
         IResource.DEPTH_INFINITE);
