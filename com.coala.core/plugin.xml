@@ -18,6 +18,17 @@
             id="com.coala.core.commands.removeMarkersCommand"
             name="Remove Markers Command">
       </command>
+      <command
+            categoryId="com.coala.core.commands.category"
+            id="com.coala.core.commands.bearList"
+            name="Bears">
+         <commandParameter
+               id="com.coala.core.commands.bearList.parameters"
+               name="Bear List"
+               optional="false"
+               values="com.coala.core.menu.BearMenu">
+         </commandParameter>
+      </command>
    </extension> 
    <extension
          point="org.eclipse.ui.handlers">
@@ -28,6 +39,10 @@
       <handler
             commandId="com.coala.core.commands.removeMarkersCommand"
             class="com.coala.core.handlers.RemoveMarkers">
+      </handler>
+      <handler
+            commandId="com.coala.core.commands.bearList"
+            class="com.coala.core.handlers.Plugin">
       </handler>
    </extension>
    <!--
@@ -62,6 +77,17 @@
                   mnemonic="C"
                   id="com.coala.core.menus.removeMarkersCommand">
             </command>
+            <separator
+                  name="com.coala.core.separator1"
+                  visible="true">
+            </separator>
+            <menu
+            	label="Run coala with">
+            	<dynamic
+              	  class="com.coala.core.menu.BearMenu"
+              	  id="com.coala.core.menu.bearListValues">
+   				</dynamic>
+            </menu>
          </menu>
       </menuContribution>
       <!--
