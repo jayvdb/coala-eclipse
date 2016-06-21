@@ -38,7 +38,7 @@ public class RemoveMarkers extends AbstractHandler {
     }
     for (IMarker m : problems) {
       try {
-        if (m.getType().equals("com.coala.core.coolproblem")) {
+        if (m.getType().equals("com.coala.core.problem")) {
           m.delete();
         }
       } catch (CoreException ex) {

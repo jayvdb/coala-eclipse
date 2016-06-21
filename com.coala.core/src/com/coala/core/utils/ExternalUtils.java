@@ -210,7 +210,7 @@ public class ExternalUtils {
   public static void createCoolMarker(IFile file, int lineNum, int flag, String message) {
     IResource resource = (IResource) file;
     try {
-      IMarker marker = resource.createMarker("com.coala.core.coolproblem");
+      IMarker marker = resource.createMarker("com.coala.core.problem");
       marker.setAttribute(IMarker.LINE_NUMBER, lineNum);
       if (flag == 1) {
         marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);

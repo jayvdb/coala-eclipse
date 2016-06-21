@@ -103,7 +103,7 @@
    </extension>
    
    <extension id="coolmarker" point="org.eclipse.core.resources.markers"/>
-   <extension id="coolproblem" point="org.eclipse.core.resources.markers">
+   <extension id="problem" point="org.eclipse.core.resources.markers">
    		<super type="org.eclipse.core.resources.problemmarker"/>
    		<super type="com.coala.core.coolmarker"/>
    		<attribute name="coolFactor"/>

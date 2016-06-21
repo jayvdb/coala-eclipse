@@ -57,7 +57,7 @@ public class RunCmdTest {
     removeMarkers.removeAllMarkers(file);
     ExternalUtils.runBearOnFile(file, "CheckstyleBear");
     sleep(15);
-    IMarker[] markers = file.findMarkers("com.coala.core.coolproblem", true,
+    IMarker[] markers = file.findMarkers("com.coala.core.problem", true,
         IResource.DEPTH_INFINITE);
     assertEquals(markers.length, 3);
   }
