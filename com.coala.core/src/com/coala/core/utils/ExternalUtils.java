@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class ExternalUtils {
 
@@ -134,17 +135,26 @@ public class ExternalUtils {
    */
   public static void processJsonAndMark(String json, IFile file) throws IOException {
     JSONObject jsonObject = new JSONObject(json);
-    JSONArray result = jsonObject.getJSONObject("results").getJSONArray("default");
-    for (int i = 0; i < result.length(); i++) {
-      String message = result.getJSONObject(i).getString("message");
-      String origin = result.getJSONObject(i).getString("origin");
-      int severity = result.getJSONObject(i).getInt("severity");
-      JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
-      for (int j = 0; j < affectedCodeArray.length(); j++) {
-        int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
-        createCoolMarker(file, endLine, 3 - severity, message);
+    JSONObject results = jsonObject.getJSONObject("results");
+
+    Iterator<?> keys = results.keys();
+    while (keys.hasNext()) {
+      String key = (String) keys.next();
+      JSONArray result = results.getJSONArray(key);
+      if (result instanceof JSONArray) {
+        for (int i = 0; i < result.length(); i++) {
+          String message = result.getJSONObject(i).getString("message");
+          String origin = result.getJSONObject(i).getString("origin");
+          int severity = result.getJSONObject(i).getInt("severity");
+          JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
+          for (int j = 0; j < affectedCodeArray.length(); j++) {
+            int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
+            createCoolMarker(file, endLine, 3 - severity, message);
+          }
+        }
       }
     }
+
   }
 
   /**
@@ -159,20 +169,28 @@ public class ExternalUtils {
    */
   public static void processJsonAndMark(String json, IProject project) throws IOException {
     JSONObject jsonObject = new JSONObject(json);
-    JSONArray result = jsonObject.getJSONObject("results").getJSONArray("default");
-    for (int i = 0; i < result.length(); i++) {
-      String projectPath = project.getLocation().toOSString();
-      String filePath = result.getJSONObject(i).getJSONArray("affected_code").getJSONObject(0)
-          .getString("file");
-      IPath path = new Path(filePath.substring(projectPath.length()));
-      IFile file = project.getFile(path);
-      String message = result.getJSONObject(i).getString("message");
-      String origin = result.getJSONObject(i).getString("origin");
-      int severity = result.getJSONObject(i).getInt("severity");
-      JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
-      for (int j = 0; j < affectedCodeArray.length(); j++) {
-        int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
-        createCoolMarker(file, endLine, 3 - severity, message);
+    JSONObject results = jsonObject.getJSONObject("results");
+
+    Iterator<?> keys = results.keys();
+    while (keys.hasNext()) {
+      String key = (String) keys.next();
+      JSONArray result = results.getJSONArray(key);
+      if (result instanceof JSONArray) {
+        for (int i = 0; i < result.length(); i++) {
+          String projectPath = project.getLocation().toOSString();
+          String filePath = result.getJSONObject(i).getJSONArray("affected_code").getJSONObject(0)
+              .getString("file");
+          IPath path = new Path(filePath.substring(projectPath.length()));
+          IFile file = project.getFile(path);
+          String message = result.getJSONObject(i).getString("message");
+          String origin = result.getJSONObject(i).getString("origin");
+          int severity = result.getJSONObject(i).getInt("severity");
+          JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
+          for (int j = 0; j < affectedCodeArray.length(); j++) {
+            int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
+            createCoolMarker(file, endLine, 3 - severity, message);
+          }
+        }
       }
     }
   }
