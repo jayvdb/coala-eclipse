@@ -54,8 +54,8 @@ public class MarkerTest {
   @Test
   public void test() throws IOException, CoreException, ExecutionException {
     removeMarkers.removeAllMarkers(file);
-    ExternalUtils.createCoolMarker(file, 0, 0, "First marker");
-    ExternalUtils.createCoolMarker(file, 0, 0, "Second marker");
+    ExternalUtils.createCoolMarker(file, 0, 0, "First marker", null);
+    ExternalUtils.createCoolMarker(file, 0, 0, "Second marker", null);
     IMarker[] markers = file.findMarkers("com.coala.core.problem", true,
         IResource.DEPTH_INFINITE);
     assertEquals(markers.length, 2);
