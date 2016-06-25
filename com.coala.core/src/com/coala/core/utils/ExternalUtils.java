@@ -143,13 +143,21 @@ public class ExternalUtils {
       JSONArray result = results.getJSONArray(key);
       if (result instanceof JSONArray) {
         for (int i = 0; i < result.length(); i++) {
+          String diff = null;
           String message = result.getJSONObject(i).getString("message");
           String origin = result.getJSONObject(i).getString("origin");
+          String filePath = result.getJSONObject(i).getJSONArray("affected_code").getJSONObject(0)
+              .getString("file");
+          if (result.getJSONObject(i).get("diffs") instanceof JSONObject) {
+            diff = result.getJSONObject(i).getJSONObject("diffs").getString(filePath);
+          } else {
+            diff = null;
+          }
           int severity = result.getJSONObject(i).getInt("severity");
           JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
           for (int j = 0; j < affectedCodeArray.length(); j++) {
             int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
-            createCoolMarker(file, endLine, 3 - severity, message);
+            createCoolMarker(file, endLine, 3 - severity, message, diff);
           }
         }
       }
@@ -177,6 +185,7 @@ public class ExternalUtils {
       JSONArray result = results.getJSONArray(key);
       if (result instanceof JSONArray) {
         for (int i = 0; i < result.length(); i++) {
+          String diff = null;
           String projectPath = project.getLocation().toOSString();
           String filePath = result.getJSONObject(i).getJSONArray("affected_code").getJSONObject(0)
               .getString("file");
@@ -184,11 +193,16 @@ public class ExternalUtils {
           IFile file = project.getFile(path);
           String message = result.getJSONObject(i).getString("message");
           String origin = result.getJSONObject(i).getString("origin");
+          if (result.getJSONObject(i).get("diffs") instanceof JSONObject) {
+            diff = result.getJSONObject(i).getJSONObject("diffs").getString(filePath);
+          } else {
+            diff = null;
+          }
           int severity = result.getJSONObject(i).getInt("severity");
           JSONArray affectedCodeArray = result.getJSONObject(i).getJSONArray("affected_code");
           for (int j = 0; j < affectedCodeArray.length(); j++) {
             int endLine = affectedCodeArray.getJSONObject(j).getJSONObject("end").getInt("line");
-            createCoolMarker(file, endLine, 3 - severity, message);
+            createCoolMarker(file, endLine, 3 - severity, message, diff);
           }
         }
       }
@@ -206,8 +220,11 @@ public class ExternalUtils {
    *          Severity 1 for error, 2 for warning.
    * @param message
    *          Problem message on marker.
+   * @param diff
+   *          The diff to fix the issue.
    */
-  public static void createCoolMarker(IFile file, int lineNum, int flag, String message) {
+  public static void createCoolMarker(IFile file, int lineNum, int flag, String message,
+      String diff) {
     IResource resource = (IResource) file;
     try {
       IMarker marker = resource.createMarker("com.coala.core.problem");
@@ -218,6 +235,8 @@ public class ExternalUtils {
         marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
       }
       marker.setAttribute(IMarker.MESSAGE, message);
+      marker.setAttribute("file", file.toString());
+      marker.setAttribute("diff", diff);
     } catch (CoreException ex) {
       ex.printStackTrace();
     }

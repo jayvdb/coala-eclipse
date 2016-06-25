@@ -109,5 +109,12 @@
    		<attribute name="coolFactor"/>
    		<persistent value="true"/>
 	</extension>
+	
+	<extension point="org.eclipse.ui.ide.markerResolution">
+      <markerResolutionGenerator
+         markerType="com.coala.core.problem"
+         class="com.coala.core.quickfix.QuickFixer"/>
+   </extension>
+	
    
 </plugin>
