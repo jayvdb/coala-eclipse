@@ -8,6 +8,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -57,7 +58,8 @@ public class RuncoafileHandler extends AbstractHandler {
       if (folder != null && project != null) {
         ExternalUtils.runcoafile(folder, project);
       } else {
-        System.out.println("Couldn't run analysis using .coafile");
+        MessageDialog.openError(null, "coafile not found",
+            "This coafile couldn't be found in this directory. Please create one.");
       }
     } catch (IOException ex) {
       ex.printStackTrace();
