@@ -10,6 +10,7 @@ Bundle-ClassPath: .,
  lib/commons-io-2.5.jar
 Bundle-Vendor: COALA
 Export-Package: com.coala.core.handlers;x-friends:="com.coala.core.tests",
+ com.coala.core.quickfix,
  com.coala.core.utils,
  org.apache.commons.exec
 Require-Bundle: org.eclipse.ui,
