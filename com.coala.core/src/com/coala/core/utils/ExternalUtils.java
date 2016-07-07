@@ -17,9 +17,11 @@ import org.eclipse.core.runtime.Path;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Iterator;
 
 public class ExternalUtils {
@@ -40,6 +42,10 @@ public class ExternalUtils {
    */
   public static void runBearOnFile(final IFile file, String bear)
       throws ExecuteException, IOException, InterruptedException {
+    if (!checkPrerequisite("coala")) {
+      DialogUtils.installcoalaDialog();
+      return;
+    }
     String path = file.getRawLocation().toOSString();
     CommandLine cmdLine = new CommandLine("coala-json");
     cmdLine.addArgument("-f" + path);
@@ -88,6 +94,10 @@ public class ExternalUtils {
    */
   public static void runcoafile(final String path, final IProject project)
       throws ExecuteException, IOException {
+    if (!checkPrerequisite("coala")) {
+      DialogUtils.installcoalaDialog();
+      return;
+    }
     File cwd = new File(path);
     CommandLine cmdLine = new CommandLine("coala-json");
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
@@ -207,6 +217,39 @@ public class ExternalUtils {
         }
       }
     }
+  }
+
+  /**
+   * Searches for the given binary in the PATH environmental variable.
+   * 
+   * @param binary
+   *          The executable that needs to be checked
+   * @return True is the binary is present, false otherwise
+   */
+  private static boolean checkPrerequisite(String binary) {
+    ProcessBuilder pb = new ProcessBuilder(isWindows() ? "where" : "which", binary);
+    boolean foundBinary = false;
+    try {
+      Process proc = pb.start();
+      int errCode = proc.waitFor();
+      if (errCode == 0) {
+        try (BufferedReader reader = new BufferedReader(
+            new InputStreamReader(proc.getInputStream()))) {
+          foundBinary = true;
+        }
+      } else {
+        System.out.println(binary + " not in PATH");
+      }
+    } catch (IOException ex) {
+      System.out.println("Something went wrong while searching for " + binary);
+    } catch (InterruptedException ex) {
+      System.out.println("Something went wrong while searching for " + binary);
+    }
+    return foundBinary;
+  }
+
+  private static boolean isWindows() {
+    return System.getProperty("os.name").toLowerCase().contains("windows");
   }
 
   /**
