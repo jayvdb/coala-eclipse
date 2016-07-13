@@ -27,4 +27,4 @@ before_install:
   - sudo pip3 install -U coala-bears --pre
   - sudo apt-get -y install metacity
 
-script: mvn -X clean verify
+script: mvn -X -Dtycho.disableP2Mirrors=true clean verify
