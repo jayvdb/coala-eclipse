@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ExternalUtils {
@@ -50,6 +51,10 @@ public class ExternalUtils {
     CommandLine cmdLine = new CommandLine("coala-json");
     cmdLine.addArgument("-f" + path);
     cmdLine.addArgument("-b" + bear);
+    ArrayList<String> settings = getBearSettings(bear);
+    if (!settings.isEmpty()) {
+      cmdLine.addArgument("-S" + String.join(", ", settings));
+    }
     System.out.println(cmdLine.toString());
 
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
@@ -69,8 +74,24 @@ public class ExternalUtils {
 
       @Override
       public void onProcessFailed(ExecuteException executeException) {
-        System.out.println("Running coala failed");
-        executeException.printStackTrace();
+        int exitValue = executeException.getExitValue();
+        if (exitValue == 0 | exitValue == 5) {
+          System.out.println("coala ran successfully.");
+        } else if (exitValue == 2 | exitValue == 130) {
+          DialogUtils.showErrorDialog("Running coala failed",
+              "Invalid arguments were passed.\nThis is a bug please report this at https://gitter.im/coala-analyzer/coala");
+        } else if (exitValue == 4) {
+          DialogUtils.showErrorDialog("Unsupported Python version",
+              "The Python version installed is not supported by coala");
+        } else if (exitValue == 13) {
+          DialogUtils.showErrorDialog("Dependency conflict",
+              "There is a conflict in the version of a dependency you have "
+              + "installed and the requirements of coala");
+        } else {
+          System.out.println("Exit with: " + exitValue);
+          DialogUtils.showErrorDialog("coala failed to run", stdout.toString());
+          executeException.printStackTrace();
+        }
       }
     };
 
@@ -117,8 +138,24 @@ public class ExternalUtils {
 
       @Override
       public void onProcessFailed(ExecuteException executeException) {
-        System.out.println("Running coala failed with output: " + stdout.toString());
-        executeException.printStackTrace();
+        int exitValue = executeException.getExitValue();
+        if (exitValue == 0 | exitValue == 5) {
+          System.out.println("coala ran successfully.");
+        } else if (exitValue == 2 | exitValue == 130) {
+          DialogUtils.showErrorDialog("Running coala failed",
+              "Invalid arguments were passed.\nThis is a bug please report this at https://gitter.im/coala-analyzer/coala");
+        } else if (exitValue == 4) {
+          DialogUtils.showErrorDialog("Unsupported Python version",
+              "The Python version installed is not supported by coala");
+        } else if (exitValue == 13) {
+          DialogUtils.showErrorDialog("Dependency conflict",
+              "There is a conflict in the version of a dependency you have "
+              + "installed and the requirements of coala");
+        } else {
+          System.out.println("Exit with: " + exitValue);
+          DialogUtils.showErrorDialog("coala failed to run", stdout.toString());
+          executeException.printStackTrace();
+        }
       }
     };
 
@@ -148,6 +185,28 @@ public class ExternalUtils {
     executor.execute(cmdLine);
     JSONArray bearList = new JSONObject(stdout.toString()).getJSONArray("bears");
     return bearList;
+  }
+
+  private static ArrayList<String> getBearSettings(String bearName)
+      throws ExecuteException, IOException {
+    JSONArray bearList = getAvailableBears();
+    JSONObject bear = null;
+    for (int i = 0; i < bearList.length(); i++) {
+      if (bearList.getJSONObject(i).getString("name").equals(bearName)) {
+        bear = bearList.getJSONObject(i);
+        break;
+      }
+    }
+    JSONArray nonOptionalParams = bear.getJSONObject("metadata")
+        .getJSONArray("non_optional_params");
+    ArrayList<String> settings = new ArrayList<>();
+    for (int i = 0; i < nonOptionalParams.length(); i++) {
+      JSONObject setting = nonOptionalParams.getJSONObject(i);
+      String key = setting.keys().next();
+      String userInput = DialogUtils.getInputDialog(key, setting.getString(key));
+      settings.add(key + "=" + userInput);
+    }
+    return settings;
   }
 
   /**
