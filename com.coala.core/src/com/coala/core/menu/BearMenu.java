@@ -15,6 +15,7 @@ import org.json.JSONArray;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BearMenu extends ContributionItem {
 
@@ -59,6 +60,7 @@ public class BearMenu extends ContributionItem {
     for (int i = 0; i < bearList.length(); i++) {
       bearNames.add(bearList.getJSONObject(i).getString("name"));
     }
+    Collections.reverse(bearNames);
     return bearNames;
   }
 }
