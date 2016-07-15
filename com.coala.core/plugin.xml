@@ -59,47 +59,27 @@
          <menu
                icon="icons/coala-analyzer.gif"
                id="com.coala.core.menus.popupMenu"
-               label="coala"
+               label="Run coala with"
                mnemonic="o">
-            <command
-            	  label = "Analyze using coala"
-                  commandId="com.coala.core.commands.runcoalaCommand"
-                  mnemonic="A"
-                  id="com.coala.core.menus.sampleCommand">
-            </command>
-            <command
-            	  label = "Clear coala violations"
-                  commandId="com.coala.core.commands.removeMarkersCommand"
-                  mnemonic="C"
-                  id="com.coala.core.menus.removeMarkersCommand">
-            </command>
-            <separator
-                  name="com.coala.core.separator1"
-                  visible="true">
-            </separator>
-            <menu
-            	label="Run coala with">
-            	<dynamic
+            <dynamic
               	  class="com.coala.core.menu.BearMenu"
               	  id="com.coala.core.menu.bearListValues">
-   				</dynamic>
-            </menu>
+   			</dynamic>
          </menu>
       </menuContribution>
-      <!--
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="com.coala.core.toolbars.sampleToolbar">
+               id="com.coala.core.toolbar">
             <command
-                  commandId="com.coala.core.commands.sampleCommand"
-                  icon="icons/sample.gif"
-                  tooltip="Say hello world"
-                  id="com.coala.core.toolbars.sampleCommand">
+                  commandId="com.coala.core.commands.runcoalaCommand"
+                  icon="icons/coala-analyzer.gif"
+                  label="coala"
+                  mode="FORCE_TEXT"
+                  tooltip="Run coala on Project">
             </command>
          </toolbar>
       </menuContribution>
-      -->
    </extension>
    
    <extension id="coolmarker" point="org.eclipse.core.resources.markers"/>
