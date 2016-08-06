@@ -95,6 +95,30 @@
          markerType="com.coala.core.problem"
          class="com.coala.core.quickfix.QuickFixer"/>
    </extension>
+ <extension
+       point="org.eclipse.core.contenttype.contentTypes">
+    <content-type
+          file-extensions="coafile"
+          file-names=".coafile"
+          id="com.coala.core.content-type.coafile"
+          name="coafile"
+          priority="high">
+    </content-type>
+ </extension>
+ <extension
+       point="org.eclipse.ui.editors">
+    <editor
+          class="com.coala.core.ui.editors._coafileEditor"
+          default="true"
+          extensions="coafile"
+          filenames=".coafile"
+          id="com.coala.core.editor.coafileditor"
+          name="coafile editor">
+       <contentTypeBinding
+             contentTypeId="com.coala.core.content-type.coafile">
+       </contentTypeBinding>
+    </editor>
+ </extension>
 	
    
 </plugin>
