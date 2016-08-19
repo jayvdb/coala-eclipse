@@ -62,7 +62,7 @@ public class RuncoafileTest {
     IPath path = project.getLocation();
     String folder = path.toOSString();
     ExternalUtils.runcoafile(folder, project);
-    sleep(15);
+    sleep(60);
     IMarker[] markers = file.findMarkers("com.coala.core.problem", true,
         IResource.DEPTH_INFINITE);
     assertEquals(markers.length, 3);
