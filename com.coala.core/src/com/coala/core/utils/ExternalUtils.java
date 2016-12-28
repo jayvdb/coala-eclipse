@@ -28,7 +28,7 @@ import java.util.Iterator;
 public class ExternalUtils {
 
   /**
-   * Invoke coala-json.
+   * Invoke coala binary.
    * 
    * @param file
    *          The IFile to run the analysis on.
@@ -48,7 +48,8 @@ public class ExternalUtils {
       return;
     }
     String path = file.getRawLocation().toOSString();
-    CommandLine cmdLine = new CommandLine("coala-json");
+    CommandLine cmdLine = new CommandLine("coala");
+    cmdLine.addArgument("--json");
     cmdLine.addArgument("-f" + path);
     cmdLine.addArgument("-b" + bear);
     ArrayList<String> settings = getBearSettings(bear);
@@ -58,9 +59,9 @@ public class ExternalUtils {
     System.out.println(cmdLine.toString());
 
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout);
+    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout, null);
 
-    // Asynchronously handle coala-json output
+    // Asynchronously handle coala output
     DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
 
       @Override
@@ -120,11 +121,12 @@ public class ExternalUtils {
       return;
     }
     File cwd = new File(path);
-    CommandLine cmdLine = new CommandLine("coala-json");
+    CommandLine cmdLine = new CommandLine("coala");
+    cmdLine.addArgument("--json");
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout);
+    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout, null);
 
-    // Asynchronously handle coala-json output
+    // Asynchronously handle coala output
     DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler() {
 
       @Override
@@ -176,10 +178,11 @@ public class ExternalUtils {
    * @return JSONArray containing details of bears.
    */
   public static JSONArray getAvailableBears() throws ExecuteException, IOException {
-    CommandLine cmdLine = new CommandLine("coala-json");
+    CommandLine cmdLine = new CommandLine("coala");
+    cmdLine.addArgument("--json");
     cmdLine.addArgument("-B");
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout);
+    PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout, null);
     Executor executor = new DefaultExecutor();
     executor.setStreamHandler(pumpStreamHandler);
     executor.execute(cmdLine);
@@ -213,7 +216,7 @@ public class ExternalUtils {
    * Process the JSON output of coala and add marker for each problem.
    * 
    * @param json
-   *          Output of running coala-json.
+   *          Output of running coala.
    * @param file
    *          The IFile to add markers on.
    * @throws IOException
@@ -255,7 +258,7 @@ public class ExternalUtils {
    * Process the JSON output of coala and add marker for each problem.
    * 
    * @param json
-   *          Output of running coala-json.
+   *          Output of running coala.
    * @param project
    *          The IProject containing files to add markers on.
    * @throws IOException
