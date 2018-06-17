@@ -23,7 +23,7 @@ before_install:
   - python3 -m venv .
   - source ./bin/activate
   - pip3 install -U 'pip<10'
-  - pip3 install -r test-requirements.txt 'coala-bears<0.9'
+  - pip3 install -r test-requirements.txt 'coala-bears<0.10'
   - sudo apt-get -y install metacity
 
 script: mvn -X -Dtycho.disableP2Mirrors=true clean verify
