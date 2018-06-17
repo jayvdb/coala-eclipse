@@ -22,6 +22,7 @@ before_install:
   - sudo apt-get -y install python3.4-venv
   - python3 -m venv .
   - source ./bin/activate
+  - pip3 install -U 'pip<10'
   - pip3 install --user -r test-requirements.txt coala-bears
   - sudo apt-get -y install metacity
 
