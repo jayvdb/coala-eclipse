@@ -122,6 +122,7 @@ public class ExternalUtils {
     }
     File cwd = new File(path);
     CommandLine cmdLine = new CommandLine("coala");
+    cmdLine.addArgument("-V");
     cmdLine.addArgument("--json");
     final ByteArrayOutputStream stdout = new ByteArrayOutputStream();
     PumpStreamHandler pumpStreamHandler = new PumpStreamHandler(stdout, null);
