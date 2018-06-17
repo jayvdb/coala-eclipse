@@ -14,17 +14,14 @@ before_script:
 language: java
 jdk:
   - oraclejdk8
-python:
-  - "3.4"
 
 cache:
   pip: true
 
 before_install:
-  - sudo apt-get update
-  - sudo apt-get -y install python3-pip python-dev
+  - python3 -m venv .
+  - source ./bin/activate
   - sudo apt-get -y install metacity
-  - sudo pip3 install -U pip
   - pip3 install --user -r test-requirements.txt coala-bears
 
 script: mvn -X -Dtycho.disableP2Mirrors=true clean verify
